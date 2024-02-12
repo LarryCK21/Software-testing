@@ -1,0 +1,47 @@
+package tablePack;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class CreateTables {
+    public static void main(String[] args) {
+        String url = "jdbc:mysql://localhost:3306/java";
+String uname = "root";
+String password = "L@rry24910";
+String query1 = "select * from student";
+String query = "create table Course(id int primary key,name varchar(30))";
+try {
+Class.forName("com.mysql.cj.jdbc.Driver");
+}catch(ClassNotFoundException e) {
+e.printStackTrace();
+}
+try {
+Connection con = DriverManager.getConnection(url,uname,password);
+Statement statement = con.createStatement();
+int rw = statement.executeUpdate(query);// return the number of rows affected.
+ResultSet result = statement.executeQuery(query1);// return an object of ResultSet class
+
+System.out.println(rw + " rows affected.");
+System.out.println("");
+
+while(result.next()) {
+	String JavaData = "";
+	for(int i=1;i<=3;i++) {
+		JavaData += result.getString(i) + ":";
+	}
+	System.out.println(JavaData);
+	
+
+	
+}			
+        con.close();
+}
+catch (SQLException e ) {
+e.printStackTrace();
+}
+
+}
+}
