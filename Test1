@@ -1,0 +1,58 @@
+package tablePack;
+
+import static org.junit.Assert.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+
+import org.junit.Test;
+
+public class CreateTablesTest {
+
+	@Test
+	public void test() {
+		        String url = "jdbc:mysql://localhost:3306/Sftt";
+		String uname = "root";
+		String password = "L@rry24910";
+		String query1 = "select * from students";
+		String query2 = "create table Course(id int primary key,name varchar(30))";
+		String query = "create table students(id int primary key,f_name varchar(20),l_name varchar(20))";
+		try {
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		}catch(ClassNotFoundException e) {
+		e.printStackTrace();
+		}
+		try {
+		Connection con = DriverManager.getConnection(url,uname,password);
+		Statement statement = con.createStatement();
+		int rw1 = statement.executeUpdate(query);// return the number of rows affected.
+		int rw2 = statement.executeUpdate(query2);
+		ResultSet result = statement.executeQuery(query1);// return an object of ResultSet class
+		
+		System.out.println(rw1 + " rows affected. Table students created succesfully.");
+		System.out.println(rw2 + "rows affected. Table Course created succesfully.");
+		System.out.println("");
+		assertEquals(0,rw2);
+		while(result.next()) {
+			String JavaData = "";
+			for(int i=1;i<=3;i++) {
+				JavaData += result.getString(i) + ":";
+			}
+			assertEquals("",JavaData);
+			System.out.println(JavaData);
+			
+		
+			
+		}			
+		        con.close();
+		}
+		catch (SQLException e ) {
+		e.printStackTrace();
+		}
+
+	}
+
+}
